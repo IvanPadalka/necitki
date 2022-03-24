@@ -1,0 +1,96 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace NLLab1
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+        double[] b1 = new double[11] {0.2, 0.4, 0.6, 0.8, 1, 1, 0.8, 0.6, 0.4, 0.2, 0};
+        double[] b2 = new double[11] {0.6, 0.8, 1, 1, 1, 0.8, 0.6, 0.4, 0.2, 0, 0};
+        double[] b3 = new double[11] {0.4, 0.6, 0.8, 1, 1, 1, 0.8, 0.6, 0.4, 0.2, 0};
+        double[] b4 = new double[11] {0, 0.2, 0.5, 0.8, 1, 1, 0.9, 0.7, 0.3, 0, 0};
+        double[] b5 = new double[11] {0, 0, 0.4, 0.5, 0.7, 1, 1, 1, 0.8, 0.5, 0};
+        double[] prenal = new double[11] {0,0,0,0,0,0,0,0,0,0,0};
+        double[] normal = new double[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        double[] zrist = new double[11] { 150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 200 };
+        double sup;
+        double a = 150;
+        double b = 175;
+        double c = 200;
+        double[] aproksymacij = new double[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private void button1_Click(object sender, EventArgs e)
+        {   dataGridView1.Rows.Add();
+            dataGridView1.Rows[0].HeaderCell.Value = ("b1");
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows[1].HeaderCell.Value = ("b2");
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows[2].HeaderCell.Value = ("b3");
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows[3].HeaderCell.Value = ("b4");
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows[4].HeaderCell.Value = ("b5");
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows[5].HeaderCell.Value = ("prenal");
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows[6].HeaderCell.Value = ("normal");
+            dataGridView1.Rows[7].HeaderCell.Value = ("aproksym");
+        for (int i = 0; i <= 11 - 1; i++)
+            {
+                dataGridView1.Rows[0].Cells[i].Value = b1[i];
+                dataGridView1.Rows[1].Cells[i].Value = b2[i];
+                dataGridView1.Rows[2].Cells[i].Value = b3[i];
+                dataGridView1.Rows[3].Cells[i].Value = b4[i];
+                dataGridView1.Rows[4].Cells[i].Value = b5[i];
+                double prenal1 = (b1[i] + b2[i] + b3[i] + b4[i] + b5[i]) / 5;
+                prenal[i] = prenal1;
+                dataGridView1.Rows[5].Cells[i].Value = prenal[i];
+                if (sup < prenal[i])
+                {
+                    sup = prenal[i];
+                }
+            }
+            for (int i = 0; i <= 10; i++)
+            {
+                normal[i] = prenal[i] / sup;
+                dataGridView1.Rows[6].Cells[i].Value = normal[i];
+            }
+                     for (int i = 0; i <= 10; i++)
+            {
+                  if (zrist[i] < a) ;
+                  {
+                      aproksymacij[i] = 0;
+                  }
+                  if (a <= zrist[i] && zrist[i] <= b)
+                  {
+                      aproksymacij[i]=(zrist[i] - a) / (b - a);
+                  }
+                  if (b<zrist[i]&& zrist[i]<c)
+                  {
+                      aproksymacij[i] = (c-zrist[i])/(c-b);
+                  }
+                  if (c <= zrist[i])
+                  {
+                      aproksymacij[i] = 0;
+                  }
+           dataGridView1.Rows[7].Cells[i].Value = aproksymacij[i];
+            }
+            for (int i = 0; i <= 10; i++)
+            {
+                chart1.Series[0].Points.AddXY(zrist[i], prenal[i]);
+                chart1.Series[1].Points.AddXY(zrist[i], normal[i]);
+                chart1.Series[2].Points.AddXY(zrist[i], aproksymacij[i]);
+            }
+        }
+    }
+}
